@@ -1,0 +1,25 @@
+---
+interface Props {
+    text: string;
+    color:string;
+}
+
+const { text = "Text Here", color } = Astro.props;
+
+let buttonColor = 'bg-yellow-500';
+let textColor = 'black'
+
+if(color == 'blue'){
+    buttonColor = 'bg-blue-700'
+    textColor = 'text-white'
+}
+---
+
+<button
+    class={`${buttonColor} ${textColor} px-4 py-2 rounded-xl  border-black border-2 shadow-[2.8px_4px_0px_rgba(0,0,0,1)]
+             font-bold font-LexendMega -tracking-widest
+             hover:translate-x-[2.8px] hover:translate-y-[4px] hover:shadow-none transition-all
+             focus:shadow-none focus:translate-y-[4px] focus:translate-x-[2.8px] `}
+>
+    {text}
+</button>

@@ -1,0 +1,77 @@
+---
+import Button from "@components/Button.astro";
+import Header from "@components/Header.astro";
+import HomeDecorations from "@components/home/HomeDecorations.astro";
+import Marquee from "@components/Marquee.astro";
+import Layout from "@layouts/Layout.astro";
+---
+
+<Layout>
+	<main class="h-full py-20">
+		<section
+			class="relative flex flex-col lg:max-w-4xl 2xl:max-w-[1420px] h-full mx-auto border-black border-2 rounded-2xl bigger-shadow"
+		>
+			<Header />
+			<section class="grid grid-rows-[3fr_1fr] h-full">
+				<HomeDecorations/>
+				<section
+					class="relative flex flex-col h-full w-full bg-white pb-10 gap-10 border-b-2 border-black"
+				>
+					<Marquee/>
+					<div
+						class={`grid grid-cols-3 px-10 h-full
+								[&>div]:flex [&>div]:items-center [&>div]:justify-center`}
+					>
+						<div>
+							<span
+								class="font-bold text-3xl font-LexendMega -tracking-wide text-pretty"
+								>Gestiona tus ventas en un solo lugar. Fácil,
+								rápido y sin rodeos.</span
+							>
+						</div>
+						<div>
+							<img
+								src="/src/assets/geometrical.webp"
+								alt="neobrutalism geometric"
+								class="h-40"
+							/>
+						</div>
+						<div>
+							<div class="flex flex-col items-end">
+								<span
+									class="font-bold text-lg font-LexendMega -tracking-widest"
+									>Toma el control de tu negocio ahora.</span
+								>
+								<div class="w-42 mt-2">
+									<Button text="Crear cuenta" color="blue" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section
+					class={`grid grid-cols-3 w-full h-full
+							[&>div]:p-5 [&>div]:flex [&>div]:flex-col [&>div]:h-full [&>div]:gap-4
+							[&>div>h3]:font-bold [&>div>h3]:text-3xl [&>div>h3]:font-LexendMega [&>div>h3]:-tracking-widest
+							[&>div>h3]:text-pretty
+							[&>div>p]:font-semibold [&>div>p]:text-xl`}
+				>
+					<div
+						class="bg-lime-500 rounded-bl-xl border-r-2 border-black"
+					>
+						<h3>Registra tus ventas en segundos</h3>
+						<p>Olvídate del caos, todo en un solo dashboard.</p>
+					</div>
+					<div class="bg-rose-500 border-r-2 border-black">
+						<h3>Sigue tu dinero en tiempo real</h3>
+						<p>Ve tus ganancias sin hacer cálculos aburridos.</p>
+					</div>
+					<div class="bg-yellow-400 rounded-br-xl">
+						<h3>Automatiza y relájate</h3>
+						<p>Menos trabajo, más control. Tú mandas.</p>
+					</div>
+				</section>
+			</section>
+		</section>
+	</main>
+</Layout>
