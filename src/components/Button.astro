@@ -1,25 +1,64 @@
 ---
 interface Props {
+    id?: string;
     text: string;
-    color:string;
+    color: string;
+    url?: string;
+    focus?: boolean;
+    size?: string;
+    width?: string;
 }
 
-const { text = "Text Here", color } = Astro.props;
+const { id, text = "Text Here", color, url, focus, size, width } = Astro.props;
 
-let buttonColor = 'bg-yellow-500';
-let textColor = 'black'
+// Color
+let buttonColor = "bg-yellow-500";
+let textColor = "black";
+if (color == "blue") {
+    buttonColor = "bg-blue-700";
+    textColor = "text-white";
+} else if (color == "lime") {
+    buttonColor = "bg-lime-500";
+}
 
-if(color == 'blue'){
-    buttonColor = 'bg-blue-700'
-    textColor = 'text-white'
+//Size
+let buttonSize = "px-4 py-2";
+let shadow = "shadow-[2.8px_4px_0px_rgba(0,0,0,1)]";
+let hoverShadowTranslate = "hover:translate-x-[2.8px] hover:translate-y-[4px]";
+let FocusTranslate = "focus:translate-x-[2.8px] focus:translate-y-[4px]";
+if (size == "bigger") {
+    buttonSize = "text-4xl px-10 py-5";
+    shadow = "shadow-[8px_8px_0px_rgba(0,0,0,1)]";
+    hoverShadowTranslate = "hover:translate-x-[8px] hover:translate-y-[8px]";
+    FocusTranslate = "focus:translate-x-[8px] focus:translate-y-[8px]";
 }
 ---
 
-<button
-    class={`${buttonColor} ${textColor} px-4 py-2 rounded-xl  border-black border-2 shadow-[2.8px_4px_0px_rgba(0,0,0,1)]
+{
+    focus ? (
+        <button
+            class={`${buttonColor} ${textColor} ${buttonSize} ${shadow} ${width} rounded-xl  border-black border-2
              font-bold font-LexendMega -tracking-widest
-             hover:translate-x-[2.8px] hover:translate-y-[4px] hover:shadow-none transition-all
-             focus:shadow-none focus:translate-y-[4px] focus:translate-x-[2.8px] `}
->
-    {text}
-</button>
+             ${hoverShadowTranslate} hover:shadow-none transition-all
+             ${FocusTranslate} focus:shadow-none `}
+            id={id}
+            onclick={url && `window.location.href='${url}'`}
+            autofocus
+            type="button"
+        >
+            {text}
+        </button>
+    ) : (
+        <button
+            class={`${buttonColor} ${textColor} ${buttonSize} ${shadow} ${width} rounded-xl  border-black border-2
+             font-bold font-LexendMega -tracking-widest
+             ${hoverShadowTranslate} hover:shadow-none transition-all
+             ${FocusTranslate} focus:shadow-none `}
+            id={id}
+            onclick={url && `window.location.href='${url}'`}
+            type="button"
+        >
+            {text}
+        </button>
+    )
+}

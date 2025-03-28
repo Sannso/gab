@@ -1,0 +1,90 @@
+---
+interface Props {
+    name: string;
+}
+
+const { name } = Astro.props;
+---
+<div
+    id="user-card"
+    class={`relative flex flex-col w-56 h-56 bg-white border-2 border-gray-800 
+                        rounded-xl p-5 shadow-[2.8px_4px_0px_rgba(0,0,0,1)]
+                        lg:user-animations`}
+>
+    <h1
+        class="absolute text-2xl font-extrabold -tracking-wider text-pretty font-LexendMega"
+    >
+        {name}
+    </h1>
+</div>
+
+<style>
+    .user-animations {
+        &:hover {
+            animation: hoverAnimation 0.5s cubic-bezier(0.61, 0.03, 0.08, 0.8)
+                both;
+        }
+    }
+
+    .user-animations-reverse {
+        animation: hoverAnimationReverse 0.5s
+            cubic-bezier(0.61, 0.03, 0.08, 0.8) both;
+    }
+
+    .user-expand {
+        animation: hoverAnimation 0.5s cubic-bezier(0.61, 0.03, 0.08, 0.8) forwards;
+    }
+
+    @keyframes hoverAnimation {
+        50% {
+            transform: translateX(2.8px) translateY(4px);
+            box-shadow: none;
+            @apply h-56;
+        }
+        100% {
+            transform: translateX(2.8px) translateY(4px);
+            box-shadow: none;
+            @apply h-full;
+        }
+    }
+
+    @keyframes hoverAnimationReverse {
+        0% {
+            transform: translateX(2.8px) translateY(4px);
+            box-shadow: none;
+            @apply h-full;
+        }
+
+        50% {
+            transform: translateX(2.8px) translateY(4px);
+            box-shadow: none;
+            @apply h-56;
+        }
+
+        100% {
+            transform: translateX(0px) translateY(0px);
+            @apply shadow-[2.8px_4px_0px_rgba(0,0,0,1)];
+            @apply h-56;
+        }
+    }
+</style>
+
+<script>
+    const userCard = document.querySelector("#user-card");
+
+    userCard!.addEventListener("mouseover", () => {
+        userCard!.classList.add("user-animations");
+        userCard!.classList.remove("user-animations-reverse");
+    });
+
+    userCard!.addEventListener("mouseout", () => {
+        userCard!.classList.add("user-animations-reverse");
+        userCard!.classList.remove("user-animations");
+        userCard!.classList.remove("user-expand");
+    });
+
+    userCard!.addEventListener("click", () => {
+        userCard!.classList.remove("user-animations-reverse");
+        userCard!.classList.add("user-expand");
+    });
+</script>

@@ -1,6 +1,130 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "@layouts/Layout.astro";
+import Button from "@components/Button.astro";
+import AuthDecorations from "@components/auth/AuthDecorations.astro";
+import { getUserFromCookies } from "@/lib/auth";
+
+export const prerender = false;
+
+const user = await getUserFromCookies(Astro.cookies);
+if (user) {
+  return Astro.redirect("/dashboard");
+}
+
 ---
+
 <Layout>
-	
+    <main class="flex items-center justify-center h-full w-full bg-yellow-500">
+        <section
+            class="flex flex-col w-full lg:flex-row items-center justify-center lg:justify-start gap-32 pl-72"
+        >
+            <section class="flex flex-col gap-16 p-10">
+                <Button
+                    text="Iniciar Sesión"
+                    color="blue"
+                    id="login"
+                    size="bigger"
+                    focus={true}
+                />
+                <Button
+                    text="Crear Cuenta"
+                    color="blue"
+                    id="register"
+                    size="bigger"
+                />
+            </section>
+            <form
+                id="loginForm"
+                class={`relative flex flex-col gap-10 py-10 px-20 items-center justify-center
+                         border-2 border-black rounded-2xl big-shadow bg-white
+                         [&>div>input]:border-2 [&>div>input]:border-black [&>div>input]:rounded-lg [&>div>input]:p-2
+                         [&>div>input]:placeholder:text-gray-500 [&>div>input]:placeholder:font-semibold `}
+            >
+                <h2 class="text-5xl font-BebasKai">Iniciar Sesión</h2>
+                <div class="flex flex-col gap-7">
+                    <input id="email" type="email" placeholder="Email" />
+                    <input id="password" type="password" placeholder="Contraseña" />
+                </div>
+                <Button
+                    text="Aceptar"
+                    color="lime"
+                    id="loginSubmit"
+                    width="w-full"
+                />
+                <AuthDecorations />
+            </form>
+            <form
+                id="registerForm"
+                class={`relative hidden flex-col gap-10 p-10 items-center justify-center
+                         border-2 border-black rounded-2xl big-shadow bg-white
+                         [&>div>input]:border-2 [&>div>input]:border-black [&>div>input]:rounded-lg [&>div>input]:p-2
+                         [&>div>input]:placeholder:text-gray-500 [&>div>input]:placeholder:font-semibold `}
+            >
+                <h2 class="text-5xl font-BebasKai">Registrarse</h2>
+                <div class="flex gap-7">
+                    <input id="email" type="email" placeholder="Email" />
+                    <input id="password" type="password" placeholder="Contraseña" />
+                </div>
+                <div class="flex gap-7">
+                    <input id="name" type="text" placeholder="Nombre" />
+                    <input id="lastname" type="text" placeholder="Apellido" />
+                </div>
+                <Button
+                    text="Aceptar"
+                    color="lime"
+                    id="registerSubmit"
+                    width="w-full"
+                />
+                <AuthDecorations />
+            </form>
+        </section>
+    </main>
 </Layout>
+
+<script>
+    const loginButton = document.querySelector("#login");
+    const singupButton = document.querySelector("#register");
+    const loginForm = document.querySelector("#loginForm");
+    const singupForm = document.querySelector("#registerForm");
+
+    loginButton!.addEventListener("click", () => {
+        loginForm!.classList.remove("hidden");
+        singupForm!.classList.add("hidden");
+        singupForm!.classList.remove("flex");
+    });
+
+    singupButton!.addEventListener("click", () => {
+        singupForm!.classList.remove("hidden");
+        singupForm!.classList.add("flex");
+        loginForm!.classList.add("hidden");
+    });
+
+    // URL
+    const url = import.meta.env.DEV
+        ? "http://localhost:4321"
+        : "https://gab.vercel.app";
+
+    // Login
+    const loginSubmit = document.querySelector("#loginSubmit");
+    loginSubmit!.addEventListener("click", async () => {
+        const email = document.getElementById("email") as HTMLInputElement;
+        const password = document.getElementById(
+            "password",
+        ) as HTMLInputElement;
+
+        const formData = new FormData();
+        formData.append("email", email.value);
+        formData.append("password", password.value);
+
+        await fetch(`${url}/api/auth/signin`, {
+            method: "POST",
+            body: formData,
+        });
+    });
+
+    // Register
+    const registerSubmit = document.querySelector("#registerSubmit");
+    registerSubmit!.addEventListener("click", () => {
+        console.log("Register");
+    });
+</script>

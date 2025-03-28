@@ -1,0 +1,49 @@
+---
+import Button from "./Button.astro";
+
+interface Props {
+    title: string;
+    data: any[];
+}
+
+const { title, data } = Astro.props;
+---
+
+<div
+    class="flex flex-col justify-between w-auto max-h-[550px] rounded-xl p-5 bg-white gap-3 border-2 border-black"
+>
+    <section class="flex flex-col overflow-auto gap-3">
+        <span
+            class="ml-2 text-left text-2xl font-extrabold font-LexendMega text-blue-800"
+            >{title}</span
+        >
+
+        <table
+            class="table-auto [&>thead>tr>th]:px-4 [&>tbody>tr>td]:px-4 [&>tbody>tr>td]:text-center"
+        >
+            <thead
+                class="h-10 sticky top-0 transition-all bg-white border-b-2 border-gray-300"
+            >
+                <tr>
+                    <th class="rounded-l-xl">Comprador</th>
+                    <th>Venta</th>
+                    <th>Producto</th>
+                    <th class="rounded-r-xl">Ganancia</th>
+                </tr>
+            </thead>
+            <tbody class="-z-10">
+                {
+                    data.map((item) => (
+                        <tr class="h-7 border-b-2 border-gray-200">
+                            <td>{item.client}</td>
+                            <td>{item.Price}</td>
+                            <td>{item.Product}</td>
+                            <td>{item.Price - item.Cost}</td>
+                        </tr>
+                    ))
+                }
+            </tbody>
+        </table>
+    </section>
+    <Button text="Nueva venta" color="blue" />
+</div>

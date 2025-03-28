@@ -1,0 +1,206 @@
+---
+import Close from "./icons/Close.astro";
+import Maximize from "./icons/Maximize.astro";
+import Minimize from "./icons/Minimize.astro";
+
+interface Props {
+    id: string;
+    text: string;
+    graphic?: string;
+    title: string;
+}
+
+const { id, text, graphic, title } = Astro.props;
+
+let buttonId = "button-" + id;
+let graphicId = "graphic-" + id;
+---
+
+<div class="graphic">
+    <button
+        class={`bg-yellow-500 text-black w-56 h-56
+                    shadow-[8px_8px_0px_rgba(0,0,0,1)] rounded-xl  border-black border-2
+                    font-bold font-LexendMega -tracking-widest text-2xl capitalize
+                    hover:shadow-none hover:translate-x-[8px] hover:translate-y-[8px] transition-all
+                    focus:shadow-none focus:translate-x-[8px] focus:translate-y-[8px]`}
+        id={buttonId}
+        type="button"
+    >
+        {text}
+    </button>
+
+    <div
+        class={`absolute hidden min-w-[500px] min-h-[450px] bg-white rounded-xl border-2 border-black
+                top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%] 
+                shadow-[4px_6px_0px_rgba(0,0,0,1)] z-20`}
+        id={graphicId}
+    >
+        <header
+            class={`bg-yellow-500 text-black rounded-t-lg border-b-2
+                        border-black px-2 flex justify-end`}
+        >
+            <div class="flex gap-2 h-8 items-center [&>button]:h-full">
+                <button
+                    id="minimize"
+                    class="hover:bg-pink-700 hover:text-white transition-all"
+                >
+                    <Minimize size={24} stroke={2} />
+                </button>
+                <button
+                    id="maximize"
+                    class="hover:bg-pink-700 hover:text-white transition-all"
+                >
+                    <Maximize size={24} stroke={2} />
+                </button>
+                <button
+                    id="close"
+                    class="hover:bg-pink-700 hover:text-white transition-all"
+                >
+                    <Close size={24} stroke={2} />
+                </button>
+            </div>
+        </header>
+        <section class="p-5 gap-5">
+            <h1
+                class="text-xl font-bold font-LexendMega -tracking-widest capitalize"
+            >
+                {title}
+            </h1>
+            <div id={`chart-${id}`} class="w-full h-96"></div>
+        </section>
+    </div>
+</div>
+
+<script>
+    import * as echarts from "echarts";
+
+    const graphics = document.querySelectorAll(".graphic");
+
+    graphics.forEach((graphic) => {
+        const button = graphic.querySelector("button");
+        const graphicDiv = graphic.querySelector("div");
+        dragElement(graphicDiv!);
+        const chartId = graphic
+            .querySelector("button")
+            ?.id.replace("button-", "chart-");
+        let chart: echarts.ECharts | null = null;
+
+        // Get buttons about windows options
+        const minimize = graphic.querySelector("#minimize");
+        const maximize = graphic.querySelector("#maximize");
+        const close = graphic.querySelector("#close");
+
+        // Add event listeners to buttons
+        minimize!.addEventListener("click", () => {
+            graphicDiv?.classList.add("hidden");
+        });
+        maximize!.addEventListener("click", () => {
+            graphicDiv?.classList.remove("hidden");
+        });
+        close!.addEventListener("click", () => {
+            graphicDiv?.classList.add("hidden");
+        });
+
+        button!.addEventListener("click", () => {
+            graphicDiv?.classList.toggle("hidden");
+
+            if (!graphicDiv?.classList.contains("hidden") && chartId) {
+                // Initialize chart when graphic is shown
+                const chartContainer = document.getElementById(chartId);
+                if (chartContainer && !chart) {
+                    chart = echarts.init(chartContainer);
+                    const option = {
+                        tooltip: {
+                            trigger: "item",
+                        },
+                        legend: {
+                            top: "5%",
+                            left: "center",
+                        },
+                        series: [
+                            {
+                                name: "Access From",
+                                type: "pie",
+                                radius: ["40%", "70%"],
+                                avoidLabelOverlap: false,
+                                itemStyle: {
+                                    borderRadius: 10,
+                                    borderColor: "#fff",
+                                    borderWidth: 2,
+                                },
+                                label: {
+                                    show: false,
+                                    position: "center",
+                                },
+                                emphasis: {
+                                    label: {
+                                        show: true,
+                                        fontSize: 16,
+                                        fontWeight: "bold",
+                                    },
+                                },
+                                labelLine: {
+                                    show: false,
+                                },
+                                data: [
+                                    { value: 1048, name: "Search Engine" },
+                                    { value: 735, name: "Direct" },
+                                    { value: 580, name: "Email" },
+                                    { value: 484, name: "Union Ads" },
+                                    { value: 300, name: "Video Ads" },
+                                ],
+                            },
+                        ],
+                    };
+                    chart.setOption(option);
+                }
+            }
+        });
+
+        // Drag graphic window
+        function dragElement(elmnt: any) {
+            let pos1 = 0,
+                pos2 = 0,
+                pos3 = 0,
+                pos4 = 0;
+            if (elmnt.querySelector("header")) {
+                /* if present, the header is where you move the DIV from:*/
+                elmnt.querySelector("header").onmousedown =
+                    dragMouseDown;
+            } else {
+                /* otherwise, move the DIV from anywhere inside the DIV:*/
+                elmnt.onmousedown = dragMouseDown;
+            }
+
+            function dragMouseDown(e: MouseEvent) {
+                e = e || window.event;
+                e.preventDefault();
+                // get the mouse cursor position at startup:
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                // call a function whenever the cursor moves:
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e: MouseEvent) {
+                e = e || window.event;
+                e.preventDefault();
+                // calculate the new cursor position:
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                // set the element's new position:
+                elmnt.style.top = elmnt.offsetTop - pos2 + "px";
+                elmnt.style.left = elmnt.offsetLeft - pos1 + "px";
+            }
+
+            function closeDragElement() {
+                /* stop moving when mouse button is released:*/
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+    });
+</script>

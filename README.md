@@ -35,19 +35,20 @@ To learn more about the folder structure of an Astro project, refer to [our guid
 ├── User
 │   ├── email
 │   ├── uuid
-│   ├── name
 │   └── password
 │
-├── UserRecharge
+├── UserBasics
 │   ├── id
 │   ├── user_uuid
+│   ├── user_name
+│   ├── user_lastname
 │   ├── amount
+│   ├── history_amount
 │   └── timestamp
 │
 ├── UserActivity
 │   ├── id
 │   ├── user_uuid
-│   ├── buy
 │   ├── sold
 │   ├── purchase
 │   ├── profit
@@ -57,14 +58,17 @@ To learn more about the folder structure of an Astro project, refer to [our guid
 │
 ├── Product
 │   ├── id
+│   ├── user_uuid
 │   ├── name
-│   ├── price
+│   ├── selling_price
+│   ├── purchase_price
 │   ├── description
 │   ├── stock
 │   └── category
 │
 ├── Client
 │   ├── id
+│   ├── user_uuid
 │   ├── name
 │   ├── last_name
 │   ├── email
