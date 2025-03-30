@@ -2,6 +2,6 @@
 export function getUrl() {
     return import.meta.env.DEV
     ? "http://localhost:4321"
-    : "https://bibliovet.vercel.app";
+    : "https://mygab.vercel.app";
   }
   

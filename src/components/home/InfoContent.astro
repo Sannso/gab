@@ -1,0 +1,33 @@
+---
+import Button from "@components/Button.astro";
+---
+
+<div
+    class={`grid grid-cols-1 lg:grid-cols-3 px-8 gap-5 lg:px-10 h-full
+			[&>div]:flex [&>div]:items-center [&>div]:justify-center`}
+>
+    <div>
+        <span
+            class="font-bold text-xl lg:text-3xl font-LexendMega -tracking-wide text-pretty"
+            >Gestiona tus ventas en un solo lugar. Fácil, rápido y sin rodeos.</span
+        >
+    </div>
+    <div>
+        <img
+            src="images/geometrical.webp"
+            alt="neobrutalism geometric"
+            class="h-40"
+        />
+    </div>
+    <div>
+        <div class="flex flex-col items-center lg:items-end">
+            <span class="font-bold text-lg font-LexendMega -tracking-widest"
+                >Toma el control de tu negocio ahora.</span
+            >
+            <div class="flex gap-5 w-42 mt-2">
+                <Button text="Probar DEMO" color="blue" />
+                <Button text="Crear cuenta" color="blue" />
+            </div>
+        </div>
+    </div>
+</div>

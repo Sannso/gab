@@ -9,11 +9,16 @@ export default {
       },
       animation: {
         marquee: "marquee 11s linear infinite",
+        sm_marquee: "sm_marquee 11s linear infinite",
       },
       keyframes: {
         marquee: {
           from: { transform: "translateX(0%)" },
           to: { transform: "translateX(-84.5%)" },
+        },
+        sm_marquee: {
+          from: { transform: "translateX(0%)" },
+          to: { transform: "translateX(-289%)" },
         }
       },
     },
