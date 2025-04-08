@@ -25,7 +25,6 @@ const response = await fetch(url + "/api/dashboard", {
 });
 
 const { allData: data } = await response.json();
-let profits = 29000;
 ---
 
 <Layout>
@@ -38,7 +37,7 @@ let profits = 29000;
                 <div class="flex flex-col gap-10 h-full">
                     <div class="flex gap-10">
                         <BalanceCard balance={data.amount} />
-                        <Profits profits={profits} />
+                        <Profits profits={data.profit} />
                     </div>
                     <ProductsTable title="Productos" data={data.products} />
                 </div>
