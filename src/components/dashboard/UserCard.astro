@@ -4,18 +4,34 @@ interface Props {
 }
 
 const { name } = Astro.props;
+const categorias = ["Streaming", "Skin Care"];
 ---
+
 <div
     id="user-card"
-    class={`relative flex flex-col w-56 h-56 bg-white border-2 border-gray-800 
-                        rounded-xl p-5 shadow-[2.8px_4px_0px_rgba(0,0,0,1)]
-                        lg:user-animations`}
+    class={`relative flex flex-col justify-between w-full lg:w-56 h-56
+            bg-white border-2 border-gray-800 
+            rounded-xl p-5 shadow-[2.8px_4px_0px_rgba(0,0,0,1)]
+            lg:user-animations`}
 >
     <h1
-        class="absolute text-2xl font-extrabold -tracking-wider text-pretty font-LexendMega"
+        class="lg:absolute text-2xl font-extrabold -tracking-wider text-pretty font-LexendMega"
     >
         {name}
     </h1>
+
+    <div id="user-card-categories" class={`flex flex-col gap-2 
+                    lg:absolute lg:top-60 lg:left-0 lg:w-full lg:items-center
+                    lg:opacity-0`}>
+        <h2 class="font-bold text-lg font-LexendMega -tracking-wider text-pretty">Categorias</h2>
+        <div class="flex lg:flex-col gap-5">
+            {categorias.map((categoria) => (
+                <div class="flex flex-col border-2 border-black rounded-lg px-2 py-.5">
+                    <h3 class="font-bold text-2xl font-BebasKai tracking-wider text-pretty">{categoria}</h3>
+                </div>
+            ))}
+        </div>
+    </div>
 </div>
 
 <style>
@@ -32,7 +48,16 @@ const { name } = Astro.props;
     }
 
     .user-expand {
-        animation: hoverAnimation 0.5s cubic-bezier(0.61, 0.03, 0.08, 0.8) forwards;
+        animation: hoverAnimation 0.5s cubic-bezier(0.61, 0.03, 0.08, 0.8)
+            forwards;
+    }
+
+    .user-category-animation-entry{
+        @apply lg:opacity-100 lg:transition-all lg:duration-500 lg:delay-200 lg:ease-in-out;
+    }
+    
+    .user-category-animation-exit{
+        @apply lg:opacity-0 lg:transition-all lg:duration-200 lg:ease-in-out;
     }
 
     @keyframes hoverAnimation {
@@ -71,20 +96,35 @@ const { name } = Astro.props;
 
 <script>
     const userCard = document.querySelector("#user-card");
+    const userCardCategories = document.querySelector("#user-card-categories");
 
     userCard!.addEventListener("mouseover", () => {
-        userCard!.classList.add("user-animations");
-        userCard!.classList.remove("user-animations-reverse");
+        if (window.innerWidth > 700) {
+            userCard!.classList.add("user-animations");
+            userCard!.classList.remove("user-animations-reverse");
+            userCardCategories!.classList.add("user-category-animation-entry");
+            userCardCategories!.classList.remove("user-category-animation-exit");
+        }
     });
 
     userCard!.addEventListener("mouseout", () => {
-        userCard!.classList.add("user-animations-reverse");
-        userCard!.classList.remove("user-animations");
-        userCard!.classList.remove("user-expand");
+        if (window.innerWidth > 700) {
+            userCard!.classList.add("user-animations-reverse");
+            userCard!.classList.remove("user-animations");
+            userCard!.classList.remove("user-expand");
+            userCardCategories!.classList.add("user-category-animation-exit");
+            userCardCategories!.classList.remove("user-category-animation-entry");
+        }
     });
 
     userCard!.addEventListener("click", () => {
-        userCard!.classList.remove("user-animations-reverse");
-        userCard!.classList.add("user-expand");
+        if (window.innerWidth > 700) {
+            userCard!.classList.remove("user-animations-reverse");
+            userCard!.classList.add("user-expand");
+
+            //Animations for categories
+            userCardCategories!.classList.add("user-category-animation-entry");
+            userCardCategories!.classList.remove("user-category-animation-exit");
+        }
     });
 </script>

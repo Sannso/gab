@@ -30,11 +30,11 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
     maxAge: 60 * 60 * 24, // Dura 2 horas
   });
   cookies.set("gab-refresh-token", refresh_token, {
-    path: "/",        
-    httpOnly: true,    
-    secure: true,       
-    maxAge: 60 * 60 * 24, 
+    path: "/",
+    httpOnly: true,
+    secure: true,
+    maxAge: 60 * 60 * 24,
   });
-  
-  return redirect("/dashboard");
+
+  return new Response(JSON.stringify({ok: true}), { status: 200 });
 };

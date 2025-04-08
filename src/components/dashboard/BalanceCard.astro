@@ -1,5 +1,5 @@
 ---
-import Button from '@components/Button.astro';
+import Button from "@components/Button.astro";
 
 interface Props {
     balance: number;
@@ -12,9 +12,14 @@ const { balance } = Astro.props;
     class={`flex flex-col gap-5 p-5 bg-white border-2 border-black rounded-xl 
                              h-48 w-full min-w-48 `}
 >
-    <h2 class="text-2xl font-extrabold font-LexendMega -tracking-widest">Saldo</h2>
+    <h2 class="text-2xl font-extrabold font-LexendMega -tracking-widest">
+        Saldo
+    </h2>
     <h3 class="text-3xl font-bold mx-auto font-LexendMega">
         {balance}
     </h3>
-    <Button text="Cambiar" color="blue" />
+    <div class="flex w-full justify-center gap-5">
+        <Button text="+" color="blue" />
+        <Button text="-" color="blue" />
+    </div>
 </article>

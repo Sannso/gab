@@ -1,0 +1,27 @@
+---
+import GraphicDoughnutButton from "@components/GraphicDoughnutButton.astro";
+import { getBestCustomers, getBestProducts } from "@lib/data_graphics";
+
+interface Props {
+    sells: [any];
+}
+const { sells } = Astro.props;
+---
+
+<div class="flex gap-10">
+    <!-- Graphics -->
+    <GraphicDoughnutButton
+        id="1"
+        text="Mejores compradores"
+        graphic="selling-1"
+        title="Mejores compradores"
+        data={getBestCustomers(sells)}
+    />
+    <GraphicDoughnutButton
+        id="2"
+        text="Mi mejor producto"
+        graphic="selling-1"
+        title="Mi mejor producto"
+        data={getBestProducts(sells)}
+    />
+</div>

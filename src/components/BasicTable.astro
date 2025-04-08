@@ -10,14 +10,14 @@ const { title, data } = Astro.props;
 ---
 
 <div
-    class="flex flex-col justify-between w-auto max-h-[550px] rounded-xl p-5 bg-white gap-3 border-2 border-black"
+    class="flex flex-col justify-between w-auto max-h-[553px] rounded-xl p-5 gap-6 bg-white border-2 border-black"
 >
-    <section class="flex flex-col overflow-auto gap-3">
-        <span
-            class="ml-2 text-left text-2xl font-extrabold font-LexendMega text-blue-800"
-            >{title}</span
-        >
+    <span
+        class="ml-2 text-left text-2xl font-extrabold font-LexendMega text-blue-800"
+        >{title}</span
+    >
 
+    <section class="overflow-y-auto">
         <table
             class="table-auto [&>thead>tr>th]:px-4 [&>tbody>tr>td]:px-4 [&>tbody>tr>td]:text-center"
         >
@@ -36,14 +36,14 @@ const { title, data } = Astro.props;
                     data.map((item) => (
                         <tr class="h-7 border-b-2 border-gray-200">
                             <td>{item.client}</td>
-                            <td>{item.Price}</td>
-                            <td>{item.Product}</td>
-                            <td>{item.Price - item.Cost}</td>
+                            <td>{item.price}</td>
+                            <td>{item.product}</td>
+                            <td>{item.price - item.cost}</td>
                         </tr>
                     ))
                 }
             </tbody>
         </table>
     </section>
-    <Button text="Nueva venta" color="blue" />
+    <Button text="nueva venta" color="blue" />
 </div>

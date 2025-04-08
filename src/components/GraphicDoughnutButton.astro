@@ -8,9 +8,10 @@ interface Props {
     text: string;
     graphic?: string;
     title: string;
+    data: any[];
 }
 
-const { id, text, graphic, title } = Astro.props;
+const { id, text, graphic, title, data } = Astro.props;
 
 let buttonId = "button-" + id;
 let graphicId = "graphic-" + id;
@@ -66,7 +67,7 @@ let graphicId = "graphic-" + id;
             >
                 {title}
             </h1>
-            <div id={`chart-${id}`} class="w-full h-96"></div>
+            <div data-data-chart={JSON.stringify(data)} id={`chart-${id}`} class="w-full h-96"></div>
         </section>
     </div>
 </div>
@@ -108,6 +109,8 @@ let graphicId = "graphic-" + id;
                 // Initialize chart when graphic is shown
                 const chartContainer = document.getElementById(chartId);
                 if (chartContainer && !chart) {
+                    const dataChart = JSON.parse(chartContainer?.dataset.dataChart!);
+                    console.log("info", dataChart)
                     chart = echarts.init(chartContainer);
                     const option = {
                         tooltip: {
@@ -142,13 +145,7 @@ let graphicId = "graphic-" + id;
                                 labelLine: {
                                     show: false,
                                 },
-                                data: [
-                                    { value: 1048, name: "Search Engine" },
-                                    { value: 735, name: "Direct" },
-                                    { value: 580, name: "Email" },
-                                    { value: 484, name: "Union Ads" },
-                                    { value: 300, name: "Video Ads" },
-                                ],
+                                data: dataChart,
                             },
                         ],
                     };

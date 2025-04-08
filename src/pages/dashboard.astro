@@ -8,6 +8,7 @@ import Profits from "@components/dashboard/Profits.astro";
 import GraphicDoughnutButton from "@components/GraphicDoughnutButton.astro";
 import { getUserFromCookies } from "@lib/auth";
 import { getUrl } from "@lib/helpers";
+import Graphics from "@components/graphics/Graphics.astro";
 
 export const prerender = false;
 
@@ -23,119 +24,27 @@ const response = await fetch(url + "/api/dashboard", {
     headers: { id: user.id, token: token },
 });
 
-const { data } = await response.json();
-let name = "Gabriela Villamil";
-let balance = 30000;
-let sells = [
-    {
-        id: 1,
-        client: "Karen Suarez",
-        Product: "Max",
-        Price: 5000,
-        Date: "2023-01-01",
-        Cost: 2200,
-    },
-    {
-        id: 2,
-        client: "Yo",
-        Product: "Vix",
-        Price: 5000,
-        Date: "2023-02-01",
-        Cost: 2000,
-    },
-    {
-        id: 3,
-        client: "Martha",
-        Product: "Prime Video",
-        Price: 5000,
-        Date: "2023-02-5",
-        Cost: 3500,
-    },
-    {
-        id: 4,
-        client: "Martha",
-        Product: "Max",
-        Price: 5000,
-        Date: "2023-01-01",
-        Cost: 2200,
-    },
-    {
-        id: 5,
-        client: "Martha",
-        Product: "Netflix",
-        Price: 9000,
-        Date: "2023-01-01",
-        Cost: 7000,
-    },
-];
-
-let products = [
-    {
-        id: 1,
-        product: "Max",
-        sellingPrice: 5000,
-        purchasePrice: 2200,
-    },
-    {
-        id: 2,
-        product: "Vix",
-        sellingPrice: 5000,
-        purchasePrice: 2000,
-    },
-    {
-        id: 3,
-        product: "Prime Video",
-        sellingPrice: 5000,
-        purchasePrice: 3500,
-    },
-    {
-        id: 4,
-        product: "Max",
-        sellingPrice: 5000,
-        purchasePrice: 2200,
-    },
-    {
-        id: 5,
-        product: "Netflix",
-        sellingPrice: 9000,
-        purchasePrice: 7000,
-    },
-];
-
+const { allData: data } = await response.json();
 let profits = 29000;
 ---
 
 <Layout>
-    <div class="flex h-full w-min mx-auto">
-        <section class="flex justify-center p-10">
-            <UserCard name={name} />
+    <div class="flex flex-col lg:flex-row max-h-full w-min mx-auto">
+        <section class="flex lg:justify-center p-10 pb-0">
+            <UserCard name={data.userName + " " + data.userLastName} />
         </section>
         <section class="flex flex-col w-full p-10 gap-10">
-            <div class="flex gap-10">
+            <div class="flex flex-col lg:flex-row gap-10">
                 <div class="flex flex-col gap-10 h-full">
                     <div class="flex gap-10">
-                        <BalanceCard balance={balance} />
+                        <BalanceCard balance={data.amount} />
                         <Profits profits={profits} />
                     </div>
-                    <ProductsTable title="Productos" data={products} />
+                    <ProductsTable title="Productos" data={data.products} />
                 </div>
-                <BasicTable title="Ventas" data={sells} />
+                <BasicTable title="Ventas" data={data.sells} />
             </div>
-            <div class="flex gap-10">
-                <!-- Graphics -->
-                <GraphicDoughnutButton
-                    id="1"
-                    text="Mejores compradores"
-                    graphic="selling-1"
-                    title="Mejores compradores"
-                />
-                <GraphicDoughnutButton
-                    id="2"
-                    text="Mi mejor producto"
-                    graphic="selling-1"
-                    title="Mi mejor producto"
-                />
-            </div>
+            <Graphics sells={data.sells} />
         </section>
     </div>
 </Layout>
